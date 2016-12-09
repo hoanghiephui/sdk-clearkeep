@@ -2,7 +2,7 @@ package com.fisil.libclearkeep.nativecrypto;
 
 class NativeCryptorProvider implements CryptoProvider {
 
-  private static boolean   libraryPresent         = false;
+  private static boolean libraryPresent = false;
   private static Throwable libraryFailedException = null;
 
   static {
@@ -10,7 +10,7 @@ class NativeCryptorProvider implements CryptoProvider {
       System.loadLibrary("curve25519");
       libraryPresent = true;
     } catch (UnsatisfiedLinkError | SecurityException e) {
-      libraryPresent         = false;
+      libraryPresent = false;
       libraryFailedException = e;
     }
   }
@@ -71,7 +71,7 @@ class NativeCryptorProvider implements CryptoProvider {
 
   @Override
   public native byte[] verifyVrfSignature(byte[] publicKey, byte[] message, byte[] signature)
-      throws VrfSignatureVerificationFailedException;
+  throws VrfSignatureVerificationFailedException;
 
   private native boolean smokeCheck(int dummy);
 

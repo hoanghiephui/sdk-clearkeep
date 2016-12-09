@@ -10,6 +10,11 @@ public class NativeCrypto {
   public static final String JAVA = "java";
   public static final String J2ME = "j2me";
   public static final String BEST = "best";
+  private final CryptoProvider provider;
+
+  private NativeCrypto(CryptoProvider provider) {
+    this.provider = provider;
+  }
 
   public static NativeCrypto getInstance(String type) throws NoSuchProviderException {
     return getInstance(type, null);
@@ -24,10 +29,38 @@ public class NativeCrypto {
     else throw new NoSuchProviderException(type);
   }
 
-  private final CryptoProvider provider;
+  private static CryptoProvider constructNativeProvider(SecureRandomProvider random) throws NoSuchProviderException {
+    return constructClass("NativeCurve25519Provider", random);
+  }
 
-  private NativeCrypto(CryptoProvider provider) {
-    this.provider = provider;
+  private static CryptoProvider constructJavaProvider(SecureRandomProvider random) throws NoSuchProviderException {
+    return constructClass("JavaCurve25519Provider", random);
+  }
+
+  private static CryptoProvider constructJ2meProvider(SecureRandomProvider random) throws NoSuchProviderException {
+    return constructClass("J2meCurve25519Provider", random);
+  }
+
+  private static CryptoProvider constructOpportunisticProvider(SecureRandomProvider random) throws NoSuchProviderException {
+    return constructClass("OpportunisticCurve25519Provider", random);
+  }
+
+  private static CryptoProvider constructClass(String name, SecureRandomProvider random) throws NoSuchProviderException {
+    try {
+      CryptoProvider provider = (CryptoProvider) Class.forName("org.whispersystems.curve25519." + name).newInstance();
+
+      if (random != null) {
+        provider.setRandomProvider(random);
+      }
+
+      return provider;
+    } catch (InstantiationException e) {
+      throw new NoSuchProviderException(e);
+    } catch (IllegalAccessException e) {
+      throw new NoSuchProviderException(e);
+    } catch (ClassNotFoundException e) {
+      throw new NoSuchProviderException(e);
+    }
   }
 
   /**
@@ -143,39 +176,5 @@ public class NativeCrypto {
     }
 
     return provider.verifyVrfSignature(publicKey, message, signature);
-  }
-
-  private static CryptoProvider constructNativeProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("NativeCurve25519Provider", random);
-  }
-
-  private static CryptoProvider constructJavaProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("JavaCurve25519Provider", random);
-  }
-
-  private static CryptoProvider constructJ2meProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("J2meCurve25519Provider", random);
-  }
-
-  private static CryptoProvider constructOpportunisticProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("OpportunisticCurve25519Provider", random);
-  }
-
-  private static CryptoProvider constructClass(String name, SecureRandomProvider random) throws NoSuchProviderException {
-    try {
-      CryptoProvider provider = (CryptoProvider) Class.forName("org.whispersystems.curve25519." + name).newInstance();
-
-      if (random != null) {
-        provider.setRandomProvider(random);
-      }
-
-      return provider;
-    } catch (InstantiationException e) {
-      throw new NoSuchProviderException(e);
-    } catch (IllegalAccessException e) {
-      throw new NoSuchProviderException(e);
-    } catch (ClassNotFoundException e) {
-      throw new NoSuchProviderException(e);
-    }
   }
 }

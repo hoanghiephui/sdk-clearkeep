@@ -64,8 +64,7 @@ public class OpportunisticProvider implements CryptoProvider {
 
   @Override
   public byte[] verifyVrfSignature(byte[] publicKey, byte[] message, byte[] signature)
-      throws VrfSignatureVerificationFailedException
-  {
+  throws VrfSignatureVerificationFailedException {
     return delegate.verifyVrfSignature(publicKey, message, signature);
   }
 
