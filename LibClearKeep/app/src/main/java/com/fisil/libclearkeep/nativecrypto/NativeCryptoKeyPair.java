@@ -1,4 +1,4 @@
-package com.fisil.libclearkeep;
+package com.fisil.libclearkeep.nativecrypto;
 
 /**
  * Created by Hoang Hiep on 12/9/2016.

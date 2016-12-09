@@ -1,4 +1,4 @@
-package com.fisil.libclearkeep;
+package com.fisil.libclearkeep.nativecrypto;
 
 public interface SecureRandomProvider {
   public void nextBytes(byte[] output);

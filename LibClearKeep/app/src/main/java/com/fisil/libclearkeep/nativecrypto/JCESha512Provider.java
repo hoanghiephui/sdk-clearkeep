@@ -1,4 +1,4 @@
-package com.fisil.libclearkeep;
+package com.fisil.libclearkeep.nativecrypto;
 
 
 import com.fisil.libclearkeep.java.Sha512;
