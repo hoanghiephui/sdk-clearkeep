@@ -1,10 +1,3 @@
-/**
- * Copyright (C) 2014-2016 Open Whisper Systems
- *
- * Licensed according to the LICENSE file in this repository.
- */
-
-
 #include <string.h>
 #include <stdint.h>
 
@@ -14,7 +7,7 @@
 #include "xeddsa.h"
 #include "vxeddsa.h"
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_generatePrivateKey
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_generatePrivateKey
   (JNIEnv *env, jobject obj, jbyteArray random)
 {
   uint8_t* privateKey = (uint8_t*)(*env)->GetByteArrayElements(env, random, 0);
@@ -28,7 +21,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
   return random;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_generatePublicKey
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_generatePublicKey
   (JNIEnv *env, jobject obj, jbyteArray privateKey)
 {
     static const uint8_t  basepoint[32] = {9};
@@ -45,7 +38,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
     return publicKey;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_calculateAgreement
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_calculateAgreement
   (JNIEnv *env, jobject obj, jbyteArray privateKey, jbyteArray publicKey)
 {
     jbyteArray sharedKey       = (*env)->NewByteArray(env, 32);
@@ -62,7 +55,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
     return sharedKey;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_calculateSignature
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_calculateSignature
   (JNIEnv *env, jobject obj, jbyteArray random, jbyteArray privateKey, jbyteArray message)
 {
     jbyteArray signature       = (*env)->NewByteArray(env, 64);
@@ -83,7 +76,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
     else             (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/AssertionError"), "Signature failed!");
 }
 
-JNIEXPORT jboolean JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_verifySignature
+JNIEXPORT jboolean JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_verifySignature
   (JNIEnv *env, jobject obj, jbyteArray publicKey, jbyteArray message, jbyteArray signature)
 {
     uint8_t*   signatureBytes = (uint8_t*)(*env)->GetByteArrayElements(env, signature, 0);
@@ -100,7 +93,7 @@ JNIEXPORT jboolean JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Pr
     return result;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_calculateVrfSignature
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_calculateVrfSignature
   (JNIEnv *env, jobject obj, jbyteArray random, jbyteArray privateKey, jbyteArray message)
 {
     jbyteArray signature       = (*env)->NewByteArray(env, 96);
@@ -121,7 +114,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
     else             (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/AssertionError"), "Signature failed!");
 }
 
-JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_verifyVrfSignature
+JNIEXPORT jbyteArray JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_verifyVrfSignature
   (JNIEnv *env, jobject obj, jbyteArray publicKey, jbyteArray message, jbyteArray signature)
 {
     uint8_t*   signatureBytes = (uint8_t*)(*env)->GetByteArrayElements(env, signature, 0);
@@ -140,11 +133,11 @@ JNIEXPORT jbyteArray JNICALL Java_org_whispersystems_curve25519_NativeCurve25519
     (*env)->ReleaseByteArrayElements(env, vrf, vrfBytes, 0);
 
     if (result == 0) return vrf;
-    else             (*env)->ThrowNew(env, (*env)->FindClass(env, "org/whispersystems/curve25519/VrfSignatureVerificationFailedException"), "Invalid signature");
+    else (*env)->ThrowNew(env, (*env)->FindClass(env, "com/fisil/libclearkeep/nativecrypto/VrfSignatureVerificationFailedException"), "Invalid signature");
 }
 
 
-JNIEXPORT jboolean JNICALL Java_org_whispersystems_curve25519_NativeCurve25519Provider_smokeCheck
+JNIEXPORT jboolean JNICALL Java_com_fisil_libclearkeep_nativecrypto_NativeCryptorProvider_smokeCheck
   (JNIEnv *env, jobject obj, jint dummy)
 {
     return 1;

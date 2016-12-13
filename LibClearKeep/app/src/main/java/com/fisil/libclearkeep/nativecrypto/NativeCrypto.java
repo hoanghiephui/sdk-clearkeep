@@ -30,24 +30,24 @@ public class NativeCrypto {
   }
 
   private static CryptoProvider constructNativeProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("NativeCurve25519Provider", random);
+    return constructClass("NativeCryptorProvider", random);
   }
 
   private static CryptoProvider constructJavaProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("JavaCurve25519Provider", random);
+    return constructClass("JavaNativeCryptorProvider", random);
   }
 
   private static CryptoProvider constructJ2meProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("J2meCurve25519Provider", random);
+    return constructClass("J2meNativeCryptoProvider", random);
   }
 
   private static CryptoProvider constructOpportunisticProvider(SecureRandomProvider random) throws NoSuchProviderException {
-    return constructClass("OpportunisticCurve25519Provider", random);
+    return constructClass("OpportunisticProvider", random);
   }
 
   private static CryptoProvider constructClass(String name, SecureRandomProvider random) throws NoSuchProviderException {
     try {
-      CryptoProvider provider = (CryptoProvider) Class.forName("org.whispersystems.curve25519." + name).newInstance();
+      CryptoProvider provider = (CryptoProvider) Class.forName("com.fisil.libclearkeep.nativecrypto." + name).newInstance();
 
       if (random != null) {
         provider.setRandomProvider(random);
