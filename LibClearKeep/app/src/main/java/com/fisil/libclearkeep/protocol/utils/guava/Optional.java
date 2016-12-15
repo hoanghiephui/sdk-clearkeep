@@ -49,36 +49,7 @@ import static com.fisil.libclearkeep.protocol.utils.guava.Preconditions.checkNot
  * @since 10.0
  */
 public abstract class Optional<T> implements Serializable {
-  /**
-   * Returns the value of each present instance from the supplied {@code optionals}, in order,
-   * skipping over occurrences of {@link Optional#absent}. Iterators are unmodifiable and are
-   * evaluated lazily.
-   *
-   * @since 11.0 (generics widened in 13.0)
-   */
 
-//  public static <T> Iterable<T> presentInstances(
-//      final Iterable<? extends Optional<? extends T>> optionals) {
-//    checkNotNull(optionals);
-//    return new Iterable<T>() {
-//      @Override public Iterator<T> iterator() {
-//        return new AbstractIterator<T>() {
-//          private final Iterator<? extends Optional<? extends T>> iterator =
-//              checkNotNull(optionals.iterator());
-//
-//          @Override protected T computeNext() {
-//            while (iterator.hasNext()) {
-//              Optional<? extends T> optional = iterator.next();
-//              if (optional.isPresent()) {
-//                return optional.get();
-//              }
-//            }
-//            return endOfData();
-//          }
-//        };
-//      };
-//    };
-//  }
 
   private static final long serialVersionUID = 0;
 

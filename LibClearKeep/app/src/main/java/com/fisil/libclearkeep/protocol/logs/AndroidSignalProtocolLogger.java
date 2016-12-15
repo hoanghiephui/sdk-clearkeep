@@ -1,4 +1,4 @@
-package com.fisil.libclearkeep.protocol.utils;
+package com.fisil.libclearkeep.protocol.logs;
 
 import android.util.Log;
 import android.util.SparseIntArray;

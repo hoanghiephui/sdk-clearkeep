@@ -38,7 +38,7 @@ public class ChainKey {
     return new ChainKey(kdf, nextKey, index + 1);
   }
 
-  //luu y doan nay
+  // TODO: 12/15/16 chu y
   public MessageKeys getMessageKeys() {
     byte[] inputKeyMaterial = getBaseMaterial(MESSAGE_KEY_SEED);
     byte[] keyMaterialBytes = kdf.deriveSecrets(inputKeyMaterial, "WhisperMessageKeys".getBytes(), DerivedMessageSecrets.SIZE);

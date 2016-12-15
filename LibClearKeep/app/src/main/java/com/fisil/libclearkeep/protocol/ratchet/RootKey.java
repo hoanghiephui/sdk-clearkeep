@@ -23,6 +23,7 @@ public class RootKey {
     return key;
   }
 
+  // TODO: 12/15/16 chu y
   public Pair<RootKey, ChainKey> createChain(ECPublicKey theirRatchetKey, ECKeyPair ourRatchetKey)
   throws InvalidKeyException {
     byte[] sharedSecret = Curve.calculateAgreement(theirRatchetKey, ourRatchetKey.getPrivateKey());

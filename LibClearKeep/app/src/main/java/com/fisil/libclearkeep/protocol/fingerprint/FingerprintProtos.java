@@ -14,6 +14,7 @@ public final class FingerprintProtos {
   private static com.google.protobuf.Descriptors.FileDescriptor
   descriptor;
 
+  // TODO: 12/14/16 chú ý kiểm tra
   static {
     String[] descriptorData = {
     "\n\031FingerprintProtocol.proto\022\ntextsecure\"" +

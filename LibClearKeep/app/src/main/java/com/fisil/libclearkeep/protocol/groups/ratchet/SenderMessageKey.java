@@ -14,6 +14,7 @@ public class SenderMessageKey {
   private final byte[] cipherKey;
   private final byte[] seed;
 
+  // TODO: 12/14/16 chú ý test
   public SenderMessageKey(int iteration, byte[] seed) {
     byte[] derivative = new HKDFv3().deriveSecrets(seed, "WhisperGroup".getBytes(), 48);
     byte[][] parts = ByteUtil.split(derivative, 16, 32);
